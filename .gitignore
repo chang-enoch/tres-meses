@@ -1,0 +1,11 @@
+node_modules
+dist
+.DS_Store
+*.local
+.vite
+
+# Original photos/stickers straight off the phone. These still carry EXIF GPS
+# coordinates and full resolution — they must never reach a public repo.
+# `npm run prep:assets` reads from here and writes stripped, resized copies
+# into public/finale/, which is what actually gets committed and deployed.
+assets-raw/
