@@ -1,0 +1,166 @@
+.wordle {
+  overflow: hidden;
+}
+
+.wordle__board-area {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  padding: 12px 0;
+}
+
+.wordle__board {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.wordle__row {
+  display: flex;
+  gap: 5px;
+}
+
+.tile {
+  /* Capped at NYT's 62px, but shrinks on narrow phones so five tiles plus
+     gaps always fit inside the viewport without horizontal scroll. */
+  width: min(62px, 16vw);
+  height: min(62px, 16vw);
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--tile-border);
+  font-size: min(32px, 8vw);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text);
+  background: transparent;
+}
+
+.tile--filled {
+  border-color: var(--tile-border-filled);
+  animation: pop 0.1s ease;
+}
+
+.tile--correct {
+  background: var(--correct);
+  border-color: var(--correct);
+  color: #fff;
+}
+
+.tile--present {
+  background: var(--present);
+  border-color: var(--present);
+  color: #fff;
+}
+
+.tile--absent {
+  background: var(--absent);
+  border-color: var(--absent);
+  color: #fff;
+}
+
+/* The colour swap happens at the midpoint, while the tile is edge-on to the
+   viewer — so the letter appears to flip over and land on its new colour. */
+.tile--flip {
+  animation: flip 500ms ease forwards;
+}
+
+@keyframes flip {
+  0% {
+    transform: rotateX(0deg);
+    background: transparent;
+    border-color: var(--tile-border-filled);
+    color: var(--text);
+  }
+  49.9% {
+    transform: rotateX(90deg);
+    background: transparent;
+    border-color: var(--tile-border-filled);
+    color: var(--text);
+  }
+  50% {
+    transform: rotateX(90deg);
+    background: var(--flip-to);
+    border-color: var(--flip-to);
+    color: #fff;
+  }
+  100% {
+    transform: rotateX(0deg);
+    background: var(--flip-to);
+    border-color: var(--flip-to);
+    color: #fff;
+  }
+}
+
+/* ---------- Keyboard ---------- */
+
+.keyboard {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 4px;
+  /* Clears the home indicator on Face ID iPhones; without this the bottom key
+     row sits under the system gesture bar and swallows taps. */
+  padding-bottom: calc(var(--safe-bottom) + 10px);
+}
+
+.keyboard__row {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.keyboard__spacer {
+  flex: 0.5;
+}
+
+.key {
+  flex: 1;
+  height: 58px;
+  min-width: 0;
+  border-radius: 4px;
+  background: var(--key-bg);
+  color: var(--key-text);
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  display: grid;
+  place-items: center;
+  transition: background 0.15s ease, transform 0.05s ease;
+}
+
+.key:active {
+  transform: scale(0.94);
+  opacity: 0.8;
+}
+
+.key--wide {
+  flex: 1.6;
+  font-size: 12px;
+}
+
+.key--correct {
+  background: var(--correct);
+  color: #fff;
+}
+
+.key--present {
+  background: var(--present);
+  color: #fff;
+}
+
+.key--absent {
+  background: var(--absent);
+  color: #fff;
+}
+
+.wordle__reopen {
+  position: absolute;
+  top: calc(var(--safe-top) + 62px);
+  right: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: underline;
+}

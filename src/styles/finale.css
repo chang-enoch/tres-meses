@@ -1,0 +1,229 @@
+.finale {
+  position: relative;
+  overflow-x: hidden;
+  padding-bottom: calc(var(--safe-bottom) + 40px);
+}
+
+/* ---------- Sealed envelope ---------- */
+
+.finale--sealed {
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+}
+
+.envelope {
+  position: relative;
+  width: min(280px, 72vw);
+  aspect-ratio: 3 / 2;
+  border-radius: 10px;
+  background: linear-gradient(160deg, var(--accent-soft), var(--surface));
+  border: 1px solid var(--accent);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.14);
+  display: grid;
+  place-items: center;
+  transition: transform 0.2s ease;
+  animation: envelope-breathe 3.4s ease-in-out infinite;
+}
+
+.envelope:active {
+  transform: scale(0.97);
+}
+
+/* The diagonal fold across the top half, drawn with borders. */
+.envelope__flap {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 58%;
+  background: linear-gradient(160deg, var(--accent-soft), var(--surface));
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  border-bottom: 1px solid var(--accent);
+  opacity: 0.9;
+}
+
+.envelope__seal {
+  position: absolute;
+  top: 46%;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.envelope__teaser {
+  position: absolute;
+  bottom: 16px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.finale__hint {
+  font-size: 14px;
+  color: var(--text-muted);
+  animation: fade-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes envelope-breathe {
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes fade-pulse {
+  50% { opacity: 0.45; }
+}
+
+/* ---------- Letter ---------- */
+
+.letter {
+  padding: calc(var(--safe-top) + 44px) 22px 8px;
+  animation: letter-in 0.7s cubic-bezier(0.2, 0.8, 0.25, 1) both;
+}
+
+.letter__date {
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.letter__headline {
+  margin-top: 8px;
+  font-size: clamp(32px, 10vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--accent);
+}
+
+.letter__para {
+  margin-top: 16px;
+  font-size: 16.5px;
+  line-height: 1.62;
+}
+
+.letter__signoff {
+  margin-top: 26px;
+  font-size: 17px;
+  font-weight: 600;
+  white-space: pre-line;
+  line-height: 1.5;
+}
+
+@keyframes letter-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+/* ---------- Collage ---------- */
+
+.collage {
+  margin-top: 38px;
+  padding: 0 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.collage__caption {
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.polaroid {
+  position: relative;
+  background: var(--surface);
+  padding: 10px 10px 32px;
+  border-radius: 3px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.16);
+  transform: rotate(var(--tilt, 0deg));
+  max-width: 100%;
+}
+
+.polaroid__button {
+  display: block;
+  width: 100%;
+}
+
+.polaroid img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  border-radius: 2px;
+}
+
+/* ---------- Floating hearts ---------- */
+
+.hearts {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.heart {
+  position: absolute;
+  bottom: -40px;
+  left: calc(var(--i) * 11% + 3%);
+  font-size: calc(13px + var(--i) * 2px);
+  color: var(--accent);
+  opacity: 0;
+  animation: float-up 5.5s ease-in forwards;
+  animation-delay: calc(var(--i) * 0.42s);
+}
+
+@keyframes float-up {
+  10% { opacity: 0.55; }
+  100% {
+    opacity: 0;
+    transform: translateY(-88vh) rotate(22deg);
+  }
+}
+
+/* ---------- Lightbox ---------- */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: calc(var(--safe-top) + 16px) 12px calc(var(--safe-bottom) + 16px);
+  animation: fade-in 0.2s ease;
+}
+
+.lightbox img {
+  max-width: 100%;
+  max-height: 82%;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+.lightbox__hint {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 13px;
+}
+
+.finale__actions {
+  margin-top: 42px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}

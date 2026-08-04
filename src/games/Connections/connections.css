@@ -1,0 +1,145 @@
+.connections {
+  padding-bottom: calc(var(--safe-bottom) + 12px);
+}
+
+.connections__prompt {
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-muted);
+  padding: 14px 0 10px;
+}
+
+.connections__board {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+  min-height: 0;
+}
+
+.connections__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.ctile {
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 4px 2px;
+  border-radius: 6px;
+  background: var(--surface-alt);
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+  transition: background 0.12s ease, color 0.12s ease, transform 0.08s ease;
+}
+
+/* Four tiles across a 375px iPhone SE leaves ~80px each, so long entries step
+   down rather than overflowing their tile. */
+.ctile--sm {
+  font-size: 12.5px;
+}
+
+.ctile--xs {
+  font-size: 10.5px;
+  letter-spacing: -0.02em;
+}
+
+.ctile:active {
+  transform: scale(0.95);
+}
+
+.ctile--selected {
+  background: var(--text);
+  color: var(--bg);
+}
+
+/* ---------- Solved bands ---------- */
+
+.band {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  border-radius: 6px;
+  padding: 14px 10px;
+  text-align: center;
+  color: #1a1714;
+  animation: pop 0.35s ease;
+}
+
+.band--0 { background: var(--conn-0); }
+.band--1 { background: var(--conn-1); }
+.band--2 { background: var(--conn-2); }
+.band--3 { background: var(--conn-3); }
+
+.band__name {
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.band__members {
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+/* ---------- Footer ---------- */
+
+.connections__footer {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 0 8px;
+}
+
+.mistakes {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mistakes__label {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.mistakes__dots {
+  display: flex;
+  gap: 7px;
+}
+
+.dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.dot--on {
+  background: var(--text-muted);
+}
+
+.connections__actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.connections__actions .btn {
+  padding: 0 18px;
+  font-size: 15px;
+}
