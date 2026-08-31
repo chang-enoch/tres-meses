@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import Viernes from './Viernes'
 import Hub from './Hub'
 import Wordle from './games/Wordle/Wordle'
 import Connections from './games/Connections/Connections'
@@ -25,7 +26,9 @@ export default function App() {
       return <Strands onBack={() => navigate('hub')} />
     case 'finale':
       return <Finale onBack={() => navigate('hub')} />
-    default:
+    case 'hub':
       return <Hub onNavigate={navigate} />
+    default:
+      return <Viernes onNavigate={navigate} />
   }
 }

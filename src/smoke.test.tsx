@@ -1,11 +1,13 @@
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import Viernes from './Viernes'
 import Hub from './Hub'
 import Wordle from './games/Wordle/Wordle'
 import Connections from './games/Connections/Connections'
 import Strands from './games/Strands/Strands'
 import Finale from './Finale'
 import { CONNECTIONS, WORDLE } from './content/puzzles'
+import { DINNER_AT, VIERNES } from './content/viernes'
 import { resetEverything } from './lib/progress'
 
 /**
@@ -16,7 +18,13 @@ import { resetEverything } from './lib/progress'
  * suite would sail straight past.
  */
 
+beforeEach(() => {
+  // The countdown reads Date.now(); freeze it so the assertions can't race.
+  vi.useFakeTimers({ shouldAdvanceTime: true })
+})
+
 afterEach(() => {
+  vi.useRealTimers()
   cleanup()
   resetEverything()
   localStorage.clear()
@@ -25,6 +33,37 @@ afterEach(() => {
 const noop = () => {}
 
 describe('screens render', () => {
+  it('renders the Friday teaser with a live countdown and a way back', () => {
+    // Pinned well before the reservation so the countdown is deterministic.
+    vi.setSystemTime(DINNER_AT - (2 * 86400 + 3 * 3600 + 4 * 60 + 5) * 1000)
+    const { container } = render(<Viernes onNavigate={noop} />)
+
+    expect(screen.getByText(VIERNES.title)).toBeDefined()
+    const cells = [...container.querySelectorAll('.countdown__value')].map(
+      (el) => el.textContent,
+    )
+    expect(cells).toEqual(['2', '03', '04', '05'])
+
+    // The teaser is a clip, not a still: it must mount without a crash.
+    expect(container.querySelector('.teaser')).not.toBeNull()
+
+    // The old site stays reachable.
+    expect(screen.getByText(new RegExp(VIERNES.hubLink, 'i'))).toBeDefined()
+  })
+
+  it('stops counting once the reservation has started', () => {
+    vi.setSystemTime(DINNER_AT + 60_000)
+    const { container } = render(<Viernes onNavigate={noop} />)
+    expect(container.querySelector('.countdown')).toBeNull()
+    expect(screen.getByText(VIERNES.afterLabel)).toBeDefined()
+  })
+
+  it('never names the restaurant', () => {
+    vi.setSystemTime(DINNER_AT - 86_400_000)
+    const { container } = render(<Viernes onNavigate={noop} />)
+    expect(container.textContent).not.toMatch(/nobu/i)
+  })
+
   it('renders the hub with three games locked behind the finale', () => {
     render(<Hub onNavigate={noop} />)
     expect(screen.getByText('Wordle')).toBeDefined()
@@ -32,6 +71,13 @@ describe('screens render', () => {
     expect(screen.getByText('Strands')).toBeDefined()
     // Finale must start locked.
     expect(screen.getByText(/Finish all three/i)).toBeDefined()
+  })
+
+  it('offers a way back out of the hub to the Friday teaser', () => {
+    const seen: string[] = []
+    render(<Hub onNavigate={(to) => seen.push(to)} />)
+    fireEvent.click(screen.getByRole('button', { name: /back to friday/i }))
+    expect(seen).toEqual(['viernes'])
   })
 
   it('renders Wordle with a full keyboard and empty board', () => {

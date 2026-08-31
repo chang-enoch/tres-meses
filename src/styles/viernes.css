@@ -1,0 +1,201 @@
+/* ===========================================================================
+ *  Ember. Scoped entirely to `.viernes` so the puzzles and the letter keep
+ *  their warm-paper look — this screen is the only one that runs hot.
+ * ======================================================================== */
+
+.viernes {
+  --ash: #0b0503;
+  --ember: #ff3b12;
+  --ember-hot: #ff8a1f;
+  --ember-dim: rgba(255, 59, 18, 0.34);
+  --ash-line: rgba(255, 120, 60, 0.18);
+  --ash-text: #fdf3ee;
+  --ash-muted: rgba(253, 243, 238, 0.5);
+
+  gap: 22px;
+  padding-bottom: calc(var(--safe-bottom) + 32px);
+  padding-left: max(var(--safe-left), 20px);
+  padding-right: max(var(--safe-right), 20px);
+  color: var(--ash-text);
+}
+
+/* The screen shell is a 560px column, so painting the background on it would
+   leave the old warm paper showing down both sides of a wide window. This
+   fills the viewport instead: two coals under the page, one warm, one hotter
+   and lower. */
+.viernes::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(80% 46% at 50% 108%, rgba(255, 84, 20, 0.4), transparent 70%),
+    radial-gradient(60% 34% at 50% -8%, rgba(255, 46, 12, 0.22), transparent 70%),
+    var(--ash);
+}
+
+.viernes__header {
+  padding-top: 34px;
+  text-align: center;
+}
+
+.viernes__dateline {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--ember-hot);
+}
+
+.viernes__title {
+  margin-top: 10px;
+  font-family: var(--font-display);
+  font-weight: 400; /* Anton ships one weight; 400 is the heavy one. */
+  font-size: clamp(72px, 24vw, 108px);
+  line-height: 0.84;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+
+  /* Poured metal: hot at the top, cooling to deep red at the base. */
+  background: linear-gradient(178deg, #fff3c4 2%, var(--ember-hot) 34%, var(--ember) 78%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+
+  /* The glow has to be a filter, not text-shadow — a transparent fill won't
+     cast one. */
+  filter: drop-shadow(0 6px 26px rgba(255, 68, 20, 0.45));
+}
+
+.viernes__subtitle {
+  margin-top: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--ash-muted);
+}
+
+/* ---------- countdown ---------- */
+
+.countdown {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.countdown__cell {
+  position: relative;
+  background: linear-gradient(180deg, rgba(255, 90, 30, 0.13), rgba(255, 60, 18, 0.04));
+  border: 1px solid var(--ash-line);
+  /* Cut corners instead of rounded ones — softness is the thing we're losing. */
+  border-radius: 2px;
+  padding: 12px 4px 9px;
+  text-align: center;
+}
+
+.countdown__value {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 34px;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  color: var(--ash-text);
+  /* Without tabular figures the seconds jitter the whole row every tick. */
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 22px rgba(255, 92, 30, 0.55);
+}
+
+.countdown__label {
+  display: block;
+  margin-top: 5px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ember-hot);
+}
+
+.countdown__caption {
+  grid-column: 1 / -1;
+  text-align: center;
+  margin-top: 2px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ash-muted);
+}
+
+.viernes__now {
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 30px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--ember-hot);
+}
+
+/* ---------- logistics ---------- */
+
+.logistics {
+  border: 1px solid var(--ash-line);
+  border-radius: 2px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.logistics__row {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 15px 16px;
+  border-bottom: 1px solid var(--ash-line);
+  /* A lit filament down the left edge of every row. */
+  box-shadow: inset 3px 0 0 var(--ember-dim);
+}
+
+.logistics__row:last-child {
+  border-bottom: none;
+}
+
+.logistics__value {
+  flex: none;
+  min-width: 92px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--ember-hot);
+  font-variant-numeric: tabular-nums;
+}
+
+.logistics__note {
+  /* Same display face as the clip's hook line. Anton is condensed, so it
+     needs a couple of extra px to read at the weight the old body font did. */
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.25;
+  letter-spacing: 0.015em;
+  color: var(--ash-text);
+}
+
+/* ---------- back door to the old site ---------- */
+
+.viernes__back {
+  align-self: center;
+  margin-top: auto;
+  padding: 14px 4px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(253, 243, 238, 0.38);
+}
+
+.viernes__back:active {
+  color: var(--ember-hot);
+}

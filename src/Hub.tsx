@@ -89,6 +89,20 @@ export default function Hub({ onNavigate }: HubProps) {
 
   return (
     <div className="screen hub">
+      {/* The hub is no longer the front door — Friday is. Without this she'd
+          have no way back short of editing the URL. */}
+      <div className="topbar">
+        <button
+          className="topbar__button"
+          onClick={() => onNavigate('viernes')}
+          aria-label="Back to Friday"
+        >
+          ←
+        </button>
+        {/* No title here: the h1 below already says it. */}
+        <span className="topbar__button" aria-hidden="true" />
+      </div>
+
       <header className="hub__header">
         <h1 className="hub__title">{HUB.title}</h1>
         <p className="hub__subtitle">{HUB.subtitle}</p>

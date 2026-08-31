@@ -1,12 +1,22 @@
 import { useCallback, useEffect, useState } from 'react'
 
-export type Route = 'hub' | 'wordle' | 'connections' | 'strands' | 'finale'
+export type Route = 'viernes' | 'hub' | 'wordle' | 'connections' | 'strands' | 'finale'
 
-const ROUTES: readonly Route[] = ['hub', 'wordle', 'connections', 'strands', 'finale']
+const ROUTES: readonly Route[] = [
+  'viernes',
+  'hub',
+  'wordle',
+  'connections',
+  'strands',
+  'finale',
+]
+
+/** Bare '#' (or a typo'd hash) lands on the Friday teaser, not the old hub. */
+const DEFAULT_ROUTE: Route = 'viernes'
 
 function parseHash(): Route {
   const raw = window.location.hash.replace(/^#\/?/, '')
-  return ROUTES.includes(raw as Route) ? (raw as Route) : 'hub'
+  return ROUTES.includes(raw as Route) ? (raw as Route) : DEFAULT_ROUTE
 }
 
 /**
@@ -26,7 +36,7 @@ export function useHashRoute(): [Route, (to: Route) => void] {
   }, [])
 
   const navigate = useCallback((to: Route) => {
-    window.location.hash = to === 'hub' ? '/' : `/${to}`
+    window.location.hash = to === DEFAULT_ROUTE ? '/' : `/${to}`
     // Games render below the fold on short screens; always start at the top.
     window.scrollTo(0, 0)
   }, [])
