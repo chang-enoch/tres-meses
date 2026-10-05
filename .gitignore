@@ -9,3 +9,10 @@ dist
 # `npm run prep:assets` reads from here and writes stripped, resized copies
 # into public/finale/, which is what actually gets committed and deployed.
 assets-raw/
+
+# Personal content — kept locally, never committed (repo is public).
+public/finale/photos/
+src/content/finale-assets.gen.ts
+src/content/finale.ts
+src/content/puzzles.ts
+src/content/strands-grid.gen.ts
